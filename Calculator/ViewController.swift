@@ -13,11 +13,21 @@ class ViewController: UIViewController {
     @IBOutlet weak var display: UILabel!
     
     var inMiddleOfTyping = false;
+    var decimalTyped = false;
     
     var brain = CalculatorBrain()
     
     @IBAction func touchDigit(_ sender: UIButton) {
         let digit = sender.currentTitle!;
+        
+        if digit == "." {
+            if decimalTyped {
+                return;
+            }
+            
+            decimalTyped = true
+        }
+        
         print("\(digit) button touched...");
         if(inMiddleOfTyping) {
             let currentDisplayText = display.text!
@@ -39,7 +49,8 @@ class ViewController: UIViewController {
     }
     
     @IBAction func performOperation(_ sender: UIButton) {
-        inMiddleOfTyping = false;
+        inMiddleOfTyping = false
+        decimalTyped = false
         
         if let mathematicalOperation = sender.currentTitle  {
             brain.setOperand(displayValue)
